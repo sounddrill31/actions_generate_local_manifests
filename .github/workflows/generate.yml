@@ -39,6 +39,7 @@ jobs:
           echo "$filename"
           mkdir -p "$filename"
           echo "filename=$filename" >> "$GITHUB_ENV"
+          rm local_manifests.xml || true
           bash generate.sh *.txt
           mv local_manifests.xml $filename/
         
