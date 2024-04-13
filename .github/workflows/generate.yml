@@ -23,13 +23,7 @@ jobs:
         && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
         && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
         && sudo apt update \
-        && sudo apt install gh -y
-        
-    - name: Identity
-      run: |
-        git config --global user.name "${{ env.UN }}"
-        git config --global user.email "${{ env.UEM }}"
-        
+        && sudo apt install gh -y        
 
     - name: Execute script
       run: |
@@ -43,6 +37,8 @@ jobs:
     - name: Push to Github as Repository
       run: |
         cd $filename
+        git config --global user.name "${{ github.actor }}"
+        git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
         git init
         git branch -M $filename
         git add .
