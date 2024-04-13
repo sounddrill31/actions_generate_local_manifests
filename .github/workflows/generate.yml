@@ -52,5 +52,5 @@ jobs:
         git add .
         git commit -s -m "$filename: local_manifests: upload template"
         curl -u "$USERNAME:$TOKEN" https://api.github.com/user/repos -d '{"name":"local_manifests_'$filename'"}' || true
-        git remote add origin https://github.com/$USERNAME/local_manifests_$filename.git
+        git remote add origin https://$USERNAME:$TOKEN@github.com/$USERNAME/local_manifests_$filename.git
         git push -f origin $filename
