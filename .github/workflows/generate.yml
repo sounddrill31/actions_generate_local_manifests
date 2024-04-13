@@ -22,7 +22,16 @@ jobs:
         && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
         && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
         && sudo apt update \
-        && sudo apt install gh -y        
+        && sudo apt install gh -y  
+
+    - name: Configure git credentials
+      run: |
+        git config --global user.name "${{ github.actor }}"
+        git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+        git config --global credential.helper store
+        echo "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT }}
 
     - name: Execute script
       run: |
@@ -36,16 +45,11 @@ jobs:
     - name: Push to Github as Repository
       run: |
         cd $filename
-        git config --global user.name "${{ github.actor }}"
-        git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
         git init
         git branch -M $filename
         git add .
         git commit -s -m "$filename: local_manifests: upload template"
         gh repo create local_manifests_$filename --public --description="Local Manifests for $filename." --source=. --remote=origin --push || {
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-    
           git remote add origin "https://github.com/${{ github.actor }}/local_manifests_$filename.git"
           git push --set-upstream origin $filename -f
         }
