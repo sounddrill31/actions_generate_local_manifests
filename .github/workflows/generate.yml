@@ -33,6 +33,7 @@ jobs:
 
     - name: Execute script
       run: |
+          ls
           filename="${file%.txt}"
           echo "$filename"
           mkdir -p "$filename"
