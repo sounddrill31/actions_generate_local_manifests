@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: write
+    permissions: write-all
     steps:
     - name: Check Out
       uses: actions/checkout@v4
