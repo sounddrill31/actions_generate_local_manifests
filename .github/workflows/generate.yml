@@ -33,8 +33,7 @@ jobs:
 
     - name: Execute script
       run: |
-          ls
-          filename="${file%.txt}"
+          filename=$(find . -type f -name "*.txt" | sed 's/\.\///g' | sed 's/\.txt//g')
           echo "$filename"
           mkdir -p "$filename"
           echo "filename=$filename" >> "$GITHUB_ENV"
