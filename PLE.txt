@@ -1,5 +1,5 @@
 "https://github.com/nokia-msm8937-dev/android_device_nokia_PLE" "device/nokia/PLE" "lineage-18.1"
+"https://github.com/nokia-msm8937/android_kernel_nokia_PLE" "kernel/nokia/PLE" "lineage-18.1"
 "https://github.com/nokia-msm8937-dev/android_device_nokia_msm8937-common" "device/nokia/msm8937-common" "lineage-18.1"
 "https://github.com/nokia-msm8937-dev/android_vendor_nokia_PLE" "vendor/nokia/PLE" "lineage-18.1"
 "https://github.com/nokia-msm8937-dev/android_vendor_nokia_msm8937-common" "vendor/nokia/msm8937-common" "lineage-18.1"
-"https://github.com/nokia-msm8937/android_kernel_nokia_PLE" "kernel/nokia/PLE" "lineage-18.1"
