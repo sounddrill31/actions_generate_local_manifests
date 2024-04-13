@@ -1,11 +1,10 @@
 ### Extract Proprietary Blobs
-* Extract your first proprietary blobs (vendor tree) from a firmware dump using Github Action.
+* Generate your first local_manifests from a list of repos using Github Action.
 
 ### Steps
 * Fork this repository.
-* Then, go to repository Settings > Secrets ans Variables > Action > New repository secret; in name - `PAT` and in secret - paste your `Personal Access Token`.
-* Go back to Action > All workflows > Extract Blobs > Run workflows > Fill everythin up > Run.
+* Go back to Settings > Action > General > Workflow Permissions > Read and write permissions.
+* Rename PLE.txt and edit contents to meet your needs
 
 ### Notes
-* You can get your `Personal Access Token` in account Settings > Developer settings > Personal acccess token.
-* Please make sure that you already trimmed your proprietary-files.txt files in your device tree, so you won't explicitly add blobs that weren't actually necessary.
+* This does not handle conflicts with ROM manifests, as it just generates a simple template. Fix them manually using remove-project.
