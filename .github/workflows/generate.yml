@@ -33,8 +33,7 @@ jobs:
 
     - name: Execute script
       run: |
-        
-          filename="${file%.txt}"
+          filename="$(basename $file .txt)"
           echo "$filename"
           mkdir -p $filename
           echo "filename=$filename" >> "$GITHUB_ENV"
