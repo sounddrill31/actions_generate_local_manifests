@@ -1,4 +1,4 @@
-{ "https://github.com/LineageOS/android","lineage-21.0" }
+{ "https://github.com/LineageOS/android" "lineage-21.0" }
 "https://github.com/Anything-at-25-00/android_device_tecno_LG8n" "device/tecno/LG8n" "lineage-21.0-redux"
 "https://github.com/Anything-at-25-00/device_tecno_lg8n_kernel" "device/tecno/LG8n-kernel" "lineage-20"
 "https://github.com/roms-experimental/android_hardware_mediatek" "hardware/mediatek" "lineage-20"
