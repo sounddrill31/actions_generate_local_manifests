@@ -1,4 +1,4 @@
-name: Extract Blobs
+name: Generate Manifests
 
 on:
   workflow_dispatch:
