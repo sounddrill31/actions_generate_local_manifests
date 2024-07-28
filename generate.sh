@@ -17,20 +17,21 @@ INFILE="$1"
 FILENAME=$(basename "$1" .txt)
 
 # Start the XML file with the header
-echo '<?xml version="1.0" encoding="UTF-8"?>
-<manifest>' > local_manifests.xml
-
-# Self Advertising
-echo "<!-- Generated using sounddrill31/actions_generate_local_manifests -->" >> local_manifests.xml
-
+cat << EOF > local_manifests.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+<!-- Generated using sounddrill31/actions_generate_local_manifests -->
+EOF
 
 # Initialize an array to store remote names
 declare -A REMOTES
 
 # Read the input file line by line using a while loop
 REMOTE_COUNT=0
-while IFS= read -r LINE
-do
+while IFS= read -r LINE; do
+    # Remove carriage return and leading/trailing whitespace
+    LINE=$(echo "$LINE" | tr -d '\r' | xargs)
+    
     # Extract the repository URL, local path, and branch from the line
     REPO_URL=$(echo "$LINE" | awk '{print $1}' | tr -d '"')
     LOCAL_PATH=$(echo "$LINE" | awk '{print $2}' | tr -d '"')
@@ -51,7 +52,7 @@ do
         fi
         echo "    <remote name=\"$REPO_OWNER\" fetch=\"https://$DOMAIN_NAME/$REPO_OWNER\" clone-depth=\"1\" />" >> local_manifests.xml
         REMOTES[$REPO_OWNER]=1
-        REMOTE_COUNT=$((REMOTE_COUNT + 1))
+        ((REMOTE_COUNT++))
     fi
 done < "$INFILE"
 
@@ -59,8 +60,10 @@ done < "$INFILE"
 echo "    <!-- Repos -->" >> local_manifests.xml
 
 # Read the input file again to generate the XML content for the projects
-while IFS= read -r LINE
-do
+while IFS= read -r LINE; do
+    # Remove carriage return and leading/trailing whitespace
+    LINE=$(echo "$LINE" | tr -d '\r' | xargs)
+    
     # Extract the repository URL, local path, and branch from the line
     REPO_URL=$(echo "$LINE" | awk '{print $1}' | tr -d '"')
     LOCAL_PATH=$(echo "$LINE" | awk '{print $2}' | tr -d '"')
@@ -71,7 +74,7 @@ do
     REPO_OWNER=$(basename "$(dirname "$REPO_URL")")
 
     # Generate the XML content for the project
-    echo "    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"$(echo $BRANCH | sed 's/^refs\/heads\///')\" />" >> local_manifests.xml
+    echo "    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"${BRANCH#refs/heads/}\" />" >> local_manifests.xml
 done < "$INFILE"
 
 # Close the XML file
