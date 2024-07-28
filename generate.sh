@@ -32,6 +32,16 @@ while IFS= read -r LINE; do
     # Remove carriage return and leading/trailing whitespace
     LINE=$(echo "$LINE" | tr -d '\r' | xargs)
     
+    # Check if the line starts and ends with curly braces
+    if [[ $LINE =~ ^\{.*\}$ ]]; then
+        # Extract data1 and data2
+        TESTING_URL=$(echo "$LINE" | awk -F'"' '{print $2}')
+        TESTING_BRANCH=$(echo "$LINE" | awk -F'"' '{print $4}')
+        export TESTING_URL TESTING_BRANCH
+        export TESTING="true"
+        continue
+    fi
+    
     # Extract the repository URL, local path, and branch from the line
     REPO_URL=$(echo "$LINE" | awk '{print $1}' | tr -d '"')
     LOCAL_PATH=$(echo "$LINE" | awk '{print $2}' | tr -d '"')
@@ -64,6 +74,11 @@ while IFS= read -r LINE; do
     # Remove carriage return and leading/trailing whitespace
     LINE=$(echo "$LINE" | tr -d '\r' | xargs)
     
+    # Check if the line starts and ends with curly braces
+    if [[ $LINE =~ ^\{.*\}$ ]]; then
+        continue
+    fi
+    
     # Extract the repository URL, local path, and branch from the line
     REPO_URL=$(echo "$LINE" | awk '{print $1}' | tr -d '"')
     LOCAL_PATH=$(echo "$LINE" | awk '{print $2}' | tr -d '"')
@@ -80,3 +95,7 @@ done < "$INFILE"
 # Close the XML file
 echo '</manifest>' >> local_manifests.xml
 echo "Local manifests generated in local_manifests.xml"
+
+# Print the exported variables
+echo "TESTING_URL: $TESTING_URL"
+echo "TESTING_BRANCH: $TESTING_BRANCH"

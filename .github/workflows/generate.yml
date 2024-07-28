@@ -42,6 +42,9 @@ jobs:
           rm local_manifests.xml || true
           bash generate.sh *.txt
           mv local_manifests.xml $filename/
+          echo "TESTING=$TESTING" >> "$GITHUB_ENV"
+          echo "TESTING_URL=$TESTING_URL" >> "$GITHUB_ENV"
+          echo "TESTING_BRANCH=$TESTING_BRANCH" >> "$GITHUB_ENV"
         
     - name: Push to Github as Repository
       run: |
@@ -55,3 +58,27 @@ jobs:
         curl -u "$USERNAME:$TOKEN" https://api.github.com/user/repos -d '{"name":"local_manifests_'$filename'"}' || true
         git remote add origin https://$USERNAME:$TOKEN@github.com/$USERNAME/local_manifests_$filename.git
         git push -f origin $filename
+        echo "local_branch=$filename" >> "$GITHUB_ENV"
+
+    - name: Run Workflow to Check Manifests
+      run: |
+       if [ "$TESTING" = true ]; then
+        USERNAME=${{ github.actor }}
+        TOKEN=${{ secrets.PAT }}
+
+        bash check.sh --user $USERNAME --token $TOKEN
+
+        if ! command -v gh &> /dev/null
+          then
+          echo "gh could not be found. Installing gh..."
+          curl -sS https://webi.sh/gh | sh
+          source ~/.config/envman/PATH.env
+          echo "gh installed."
+        fi
+
+        git clone https://$USERNAME:$TOKEN@github.com/$USERNAME/Manifest_Tester
+        cd Manifest_Tester
+        gh repo set-default https://github.com/$USERNAME/Manifest_Tester.git
+        
+        gh workflow run main.yml -f LOCAL_MANIFEST_URL="https://github.com/$USERNAME/local_manifests_$filename" LOCAL_MANIFEST_BRANCH="$local_branch" ROM_MANIFEST_URL="$TESTING_URL" ROM_MANIFEST_BRANCH="$TESTING_BRANCH" CHOICE="LOCAL_MANIFEST"
+       fi
