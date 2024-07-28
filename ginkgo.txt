@@ -1,0 +1,4 @@
+"https://github.com/Mixed2066/android_device_xiaomi_ginkgo.git" "device/xiaomi/ginkgo" "lineage-20"
+"https://github.com/Mixed2066/android_kernel_xiaomi_ginkgo.git" "kernel/xiaomi/ginkgo" "14.0" 
+"https://github.com/Mixed2066/android_device_xiaomi_sm6125-common.git" "device/xiaomi/sm6125-common" "lineage-20" 
+"https://github.com/Mixed2066/android_vendor_xiaomi_ginkgo.git" "vendor/xiaomi/ginkgo" "14.0" 
