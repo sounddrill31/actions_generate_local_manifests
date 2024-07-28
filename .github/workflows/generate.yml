@@ -80,7 +80,7 @@ jobs:
         cd Manifest_Tester
         gh repo set-default https://github.com/$USERNAME/Manifest_Tester.git
         
-        gh workflow run main.yml -f LOCAL_MANIFEST_URL="https://github.com/$USERNAME/local_manifests_$filename" LOCAL_MANIFEST_BRANCH="$filename" ROM_MANIFEST_URL="$TESTING_URL" ROM_MANIFEST_BRANCH="$TESTING_BRANCH" CHOICE="LOCAL_MANIFEST"
+        gh workflow run main.yml -f LOCAL_MANIFEST_URL="https://github.com/$USERNAME/local_manifests_$filename" -f LOCAL_MANIFEST_BRANCH="$filename" -f ROM_MANIFEST_URL="$TESTING_URL" -f ROM_MANIFEST_BRANCH="$TESTING_BRANCH" -f CHOICE="LOCAL_MANIFEST"
 
         echo "Testing Started! Please Check https://github.com/$USERNAME/Manifest_Tester/actions"
        fi

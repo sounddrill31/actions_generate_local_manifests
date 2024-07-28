@@ -39,7 +39,7 @@ while IFS= read -r LINE; do
 
         echo "$TESTING_URL" > url.txt
         echo "$TESTING_BRANCH" > branch.txt
-        echo "$TESTING" > test_status.txt
+        echo "true" > test_status.txt
         continue
     fi
     
