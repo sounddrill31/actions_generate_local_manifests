@@ -37,8 +37,10 @@ while IFS= read -r LINE; do
         # Extract data1 and data2
         TESTING_URL=$(echo "$LINE" | awk -F'"' '{print $2}')
         TESTING_BRANCH=$(echo "$LINE" | awk -F'"' '{print $4}')
-        export TESTING_URL TESTING_BRANCH
-        export TESTING="true"
+
+        echo "$TESTING_URL" > url.txt
+        echo "$TESTING_BRANCH" > branch.txt
+        echo "$TESTING" > test_status.txt
         continue
     fi
     
