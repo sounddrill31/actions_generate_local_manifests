@@ -20,6 +20,10 @@ FILENAME=$(basename "$1" .txt)
 echo '<?xml version="1.0" encoding="UTF-8"?>
 <manifest>' > local_manifests.xml
 
+# Self Advertising
+echo "<!-- Generated using sounddrill31/actions_generate_local_manifests -->" >> local_manifests.xml
+
+
 # Initialize an array to store remote names
 declare -A REMOTES
 
