@@ -59,7 +59,6 @@ jobs:
         curl -u "$USERNAME:$TOKEN" https://api.github.com/user/repos -d '{"name":"local_manifests_'$filename'"}' || true
         git remote add origin https://$USERNAME:$TOKEN@github.com/$USERNAME/local_manifests_$filename.git
         git push -f origin $filename
-        echo "local_branch=$filename" >> "$GITHUB_ENV"
 
     - name: Run Workflow to Check Manifests
       run: |
@@ -81,5 +80,7 @@ jobs:
         cd Manifest_Tester
         gh repo set-default https://github.com/$USERNAME/Manifest_Tester.git
         
-        gh workflow run main.yml -f LOCAL_MANIFEST_URL="https://github.com/$USERNAME/local_manifests_$filename" LOCAL_MANIFEST_BRANCH="$local_branch" ROM_MANIFEST_URL="$TESTING_URL" ROM_MANIFEST_BRANCH="$TESTING_BRANCH" CHOICE="LOCAL_MANIFEST"
+        gh workflow run main.yml -f LOCAL_MANIFEST_URL="https://github.com/$USERNAME/local_manifests_$filename" LOCAL_MANIFEST_BRANCH="$filename" ROM_MANIFEST_URL="$TESTING_URL" ROM_MANIFEST_BRANCH="$TESTING_BRANCH" CHOICE="LOCAL_MANIFEST"
+
+        echo "Testing Started! Please Check https://github.com/$USERNAME/Manifest_Tester/actions"
        fi

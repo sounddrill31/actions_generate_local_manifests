@@ -35,8 +35,7 @@ while IFS= read -r LINE; do
     # Check if the line starts and ends with curly braces
     if [[ $LINE =~ ^\{.*\}$ ]]; then
         # Extract data1 and data2
-        TESTING_URL=$(echo "$LINE" | awk -F'"' '{print $2}')
-        TESTING_BRANCH=$(echo "$LINE" | awk -F'"' '{print $4}')
+        read -r TESTING_URL TESTING_BRANCH <<< "${LINE:2:-2}"
 
         echo "$TESTING_URL" > url.txt
         echo "$TESTING_BRANCH" > branch.txt
