@@ -16,6 +16,11 @@ fi
 INFILE="$1"
 FILENAME=$(basename "$1" .txt)
 
+# Debug: Print the content of the input file
+echo "Debug: Content of $INFILE:"
+cat "$INFILE"
+echo "Debug: End of input file content"
+
 # Start the XML file with the header
 cat << EOF > local_manifests.xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -28,7 +33,7 @@ declare -A REMOTES
 
 # Read the input file line by line
 REMOTE_COUNT=0
-while IFS= read -r LINE; do
+while IFS= read -r LINE || [ -n "$LINE" ]; do
     echo "Debug: Processing line: $LINE"
     
     # Remove carriage return and leading/trailing whitespace
