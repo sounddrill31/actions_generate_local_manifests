@@ -15,9 +15,11 @@
 ### Format:
 Do this for as many entries as possible
 ```
+{ "https://github.com/ROM/manifest" "branch_name" }
 "https://github.com/username/repo_number_1.git" "path/to/clone" "branch_name"
 ```
  ### Example:
 ```
+{ "https://github.com/LineageOS/android" "lineage-21.0" }
 "https://github.com/Mixed2066/android_device_xiaomi_ginkgo.git" "device/xiaomi/ginkgo" "lineage-20"
 ```

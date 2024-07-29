@@ -1,0 +1,2 @@
+{ "https://github.com/Spark-Rom/manifest" "pyro-next" }
+"https://github.com/This-place-is-simpler-than-you-think/android_device_xiaomi_fog" "device/xiaomi/fog" "SparkOS-13"
