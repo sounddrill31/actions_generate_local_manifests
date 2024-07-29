@@ -63,7 +63,7 @@ while IFS= read -r LINE; do
     
     if [[ $LINE =~ ^\{.*\}$ ]]; then
         # Extract testing URL and branch
-        read -r TESTING_URL TESTING_BRANCH <<< "${LINE:2:-2}"
+        read -r TESTING_URL TESTING_BRANCH <<< "$(echo "$LINE" | tr -d '{}"')"
         echo "$TESTING_URL" > url.txt
         echo "$TESTING_BRANCH" > branch.txt
         echo "true" > test_status.txt
