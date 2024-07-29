@@ -29,11 +29,15 @@ declare -A REMOTES
 # Read the input file line by line
 REMOTE_COUNT=0
 while IFS= read -r LINE; do
+    echo "Debug: Processing line: $LINE"
+    
     # Remove carriage return and leading/trailing whitespace
     LINE=$(echo "$LINE" | tr -d '\r' | xargs)
+    echo "Debug: After trimming: $LINE"
     
     # Check if the line starts and ends with curly braces
     if [[ $LINE =~ ^\{.*\}$ ]]; then
+        echo "Debug: Found testing line"
         # Extract data1 and data2
         read -r TESTING_URL TESTING_BRANCH <<< "${LINE:2:-2}"
 
@@ -48,15 +52,25 @@ while IFS= read -r LINE; do
     LOCAL_PATH=$(echo "$LINE" | awk '{print $2}' | tr -d '"')
     BRANCH=$(echo "$LINE" | awk '{print $3}' | tr -d '"')
 
+    echo "Debug: REPO_URL=$REPO_URL"
+    echo "Debug: LOCAL_PATH=$LOCAL_PATH"
+    echo "Debug: BRANCH=$BRANCH"
+
     # Extract the repository name and owner from the URL
     REPO_NAME=$(basename "$REPO_URL" .git)
     REPO_OWNER=$(basename "$(dirname "$REPO_URL")")
 
+    echo "Debug: REPO_NAME=$REPO_NAME"
+    echo "Debug: REPO_OWNER=$REPO_OWNER"
+
     # Extract the domain name from the URL
     DOMAIN_NAME=$(echo "$REPO_URL" | awk -F[/:] '{print $4}')
 
+    echo "Debug: DOMAIN_NAME=$DOMAIN_NAME"
+
     # Check if the remote is already added
     if [[ ! " ${!REMOTES[@]} " =~ " ${REPO_OWNER} " ]]; then
+        echo "Debug: Adding new remote: $REPO_OWNER"
         # Generate the XML content for the remote
         if [ $REMOTE_COUNT -eq 0 ]; then
             echo "    <!-- Remotes -->" >> local_manifests.xml
@@ -82,3 +96,7 @@ echo "Local manifests generated in local_manifests.xml"
 # Print the exported variables
 echo "TESTING_URL: $TESTING_URL"
 echo "TESTING_BRANCH: $TESTING_BRANCH"
+
+# Debug: Print the content of the generated file
+echo "Debug: Content of local_manifests.xml:"
+cat local_manifests.xml
