@@ -14,7 +14,6 @@ fi
 
 # Define the input file
 INFILE="$1"
-FILENAME=$(basename "$1" .txt)
 
 # Start the XML file with the header
 cat << EOF > local_manifests.xml
@@ -41,9 +40,8 @@ process_repo_line() {
     # Extract the domain name from the URL
     DOMAIN_NAME=$(echo "$REPO_URL" | awk -F[/:] '{print $4}')
 
-    # Check if the remote is already added
+    # Add remote if not already added
     if [[ ! " ${!REMOTES[@]} " =~ " ${REPO_OWNER} " ]]; then
-        # Generate the XML content for the remote
         if [ ${#REMOTES[@]} -eq 0 ]; then
             echo "    <!-- Remotes -->" >> local_manifests.xml
         fi
@@ -51,39 +49,29 @@ process_repo_line() {
         REMOTES[$REPO_OWNER]=1
     fi
 
-    # Generate the XML content for the project
+    # Add project
     if [ ${#REMOTES[@]} -eq 1 ]; then
         echo "    <!-- Repos -->" >> local_manifests.xml
     fi
     echo "    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"${BRANCH#refs/heads/}\" />" >> local_manifests.xml
 }
 
-# Read the input file line by line
-REPO_LINES=""
+# Read and process the input file
 while IFS= read -r LINE; do
     # Remove carriage return and leading/trailing whitespace
     LINE=$(echo "$LINE" | tr -d '\r' | xargs)
     
-    # Check if the line starts and ends with curly braces
     if [[ $LINE =~ ^\{.*\}$ ]]; then
-        # Extract data1 and data2
+        # Extract testing URL and branch
         read -r TESTING_URL TESTING_BRANCH <<< "${LINE:2:-2}"
-
         echo "$TESTING_URL" > url.txt
         echo "$TESTING_BRANCH" > branch.txt
         echo "true" > test_status.txt
-    else
-        # Store regular repository lines
-        REPO_LINES+="$LINE"$'\n'
-    fi
-done < "$INFILE"
-
-# Process repository lines
-echo "$REPO_LINES" | while IFS= read -r LINE; do
-    if [ ! -z "$LINE" ]; then
+    elif [ ! -z "$LINE" ]; then
+        # Process repository line
         process_repo_line "$LINE"
     fi
-done
+done < "$INFILE"
 
 # Close the XML file
 echo '</manifest>' >> local_manifests.xml
