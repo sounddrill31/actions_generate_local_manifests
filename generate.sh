@@ -14,6 +14,7 @@ fi
 
 # Define the input file
 INFILE="$1"
+FILENAME=$(basename "$1" .txt)
 
 # Start the XML file with the header
 cat << EOF > local_manifests.xml
@@ -25,9 +26,23 @@ EOF
 # Initialize an array to store remote names
 declare -A REMOTES
 
-# Function to process a repository line
-process_repo_line() {
-    local LINE="$1"
+# Read the input file line by line
+REMOTE_COUNT=0
+while IFS= read -r LINE; do
+    # Remove carriage return and leading/trailing whitespace
+    LINE=$(echo "$LINE" | tr -d '\r' | xargs)
+    
+    # Check if the line starts and ends with curly braces
+    if [[ $LINE =~ ^\{.*\}$ ]]; then
+        # Extract data1 and data2
+        read -r TESTING_URL TESTING_BRANCH <<< "${LINE:2:-2}"
+
+        echo "$TESTING_URL" > url.txt
+        echo "$TESTING_BRANCH" > branch.txt
+        echo "true" > test_status.txt
+        continue
+    fi
+    
     # Extract the repository URL, local path, and branch from the line
     REPO_URL=$(echo "$LINE" | awk '{print $1}' | tr -d '"')
     LOCAL_PATH=$(echo "$LINE" | awk '{print $2}' | tr -d '"')
@@ -40,37 +55,24 @@ process_repo_line() {
     # Extract the domain name from the URL
     DOMAIN_NAME=$(echo "$REPO_URL" | awk -F[/:] '{print $4}')
 
-    # Add remote if not already added
+    # Check if the remote is already added
     if [[ ! " ${!REMOTES[@]} " =~ " ${REPO_OWNER} " ]]; then
-        if [ ${#REMOTES[@]} -eq 0 ]; then
+        # Generate the XML content for the remote
+        if [ $REMOTE_COUNT -eq 0 ]; then
             echo "    <!-- Remotes -->" >> local_manifests.xml
         fi
         echo "    <remote name=\"$REPO_OWNER\" fetch=\"https://$DOMAIN_NAME/$REPO_OWNER\" clone-depth=\"1\" />" >> local_manifests.xml
         REMOTES[$REPO_OWNER]=1
+        ((REMOTE_COUNT++))
     fi
 
-    # Add project
-    if [ ${#REMOTES[@]} -eq 1 ]; then
+    # Output <!-- Repos --> only once
+    if [ $REMOTE_COUNT -eq 1 ]; then
         echo "    <!-- Repos -->" >> local_manifests.xml
     fi
-    echo "    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"${BRANCH#refs/heads/}\" />" >> local_manifests.xml
-}
 
-# Read and process the input file
-while IFS= read -r LINE; do
-    # Remove carriage return and leading/trailing whitespace
-    LINE=$(echo "$LINE" | tr -d '\r' | xargs)
-    
-    if [[ $LINE =~ ^\{.*\}$ ]]; then
-        # Extract testing URL and branch
-        read -r TESTING_URL TESTING_BRANCH <<< "$(echo "$LINE" | tr -d '{}"')"
-        echo "$TESTING_URL" > url.txt
-        echo "$TESTING_BRANCH" > branch.txt
-        echo "true" > test_status.txt
-    elif [ ! -z "$LINE" ]; then
-        # Process repository line
-        process_repo_line "$LINE"
-    fi
+    # Generate the XML content for the project
+    echo "    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"${BRANCH#refs/heads/}\" />" >> local_manifests.xml
 done < "$INFILE"
 
 # Close the XML file
