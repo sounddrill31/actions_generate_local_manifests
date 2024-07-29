@@ -56,6 +56,12 @@ while IFS= read -r LINE; do
     echo "Debug: LOCAL_PATH=$LOCAL_PATH"
     echo "Debug: BRANCH=$BRANCH"
 
+    # Check if any of the variables are empty
+    if [ -z "$REPO_URL" ] || [ -z "$LOCAL_PATH" ] || [ -z "$BRANCH" ]; then
+        echo "Debug: Skipping line due to missing information"
+        continue
+    fi
+
     # Extract the repository name and owner from the URL
     REPO_NAME=$(basename "$REPO_URL" .git)
     REPO_OWNER=$(basename "$(dirname "$REPO_URL")")
