@@ -1,5 +1,5 @@
 { "https://github.com/lineageOS/android" "lineage-21.0" }
 "https://github.com/tecno-mt6768/lineage_device_tecno_TECNO-KH7n" "device/TECNO/KH7n" "lineage-TECNO-KH7n-20240719"
 "https://github.com/tecno-mt6768/android_vendor_tecno_TECNO-KH7n" "vendor/TECNO/KH7n" "vendor-TECNO-KH7n-20240719"
-"https://github.com/LineageOS/android_device_mediatek_sepolicy_vndr" "device/mediatek/sepolicy_vndr" "Lineage-21"
-"https://github.com/LineageOS/android_hardware_mediatek" "hardware/mediatek" "Lineage-21"
+"https://github.com/LineageOS/android_device_mediatek_sepolicy_vndr" "device/mediatek/sepolicy_vndr" "lineage-21"
+"https://github.com/LineageOS/android_hardware_mediatek" "hardware/mediatek" "lineage-21"
