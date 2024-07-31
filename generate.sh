@@ -53,7 +53,7 @@ while IFS= read -r LINE || [ -n "$LINE" ]; do
         REPO_OWNER=$(basename "$(dirname "$REPO_URL")")
 
         # Extract the domain name from the URL
-        DOMAIN_NAME=$(echo "$REPO_URL" | awk -F[/:] '{print $3}')
+        DOMAIN_NAME=$(echo "$REPO_URL" | sed -E 's/https?:\/\/([^\/]+).*/\1/')
 
         # Add remote to the REMOTES array if not already present
         if [[ ! " ${!REMOTES[@]} " =~ " ${REPO_OWNER} " ]]; then
