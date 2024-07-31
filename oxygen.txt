@@ -1,0 +1,8 @@
+{ "https://github.com/lineageOS/android" "lineage-21.0" }
+add "https://github.com/sounddrill31/android_device_xiaomi_oxygen-3" "device/xiaomi/oxygen" "lineage-21-qpr3"
+add "https://github.com/halibw/android_kernel_xiaomi_oxygen" "kernel/xiaomi/oxygen" "lineage-21"
+add "https://github.com/halibw/proprietary_vendor_oxygen" "vendor/xiaomi/oxygen" "lineage-21"
+remove "android_hardware_qcom_audio"
+remove "android_hardware_qcom_media"
+add "https://github.com/halibw-dev/hardware_qcom_msm8953_4.19_audio" "device/mediatek/sepolicy_vndr" "9.6.4.r1-05200"
+add "https://github.com/halibw-dev/hardware_qcom_msm8953_4.19_media" "hardware/mediatek" "LA.UM.9.6.4.r1-05200"

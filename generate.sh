@@ -32,40 +32,59 @@ while IFS= read -r LINE || [ -n "$LINE" ]; do
     # Remove carriage return and leading/trailing whitespace
     LINE=$(echo "$LINE" | tr -d '\r' | xargs)
     
-    # Check if the line starts and ends with curly braces
+    # Check if the line starts with curly braces
     if [[ $LINE =~ ^\{.*\}$ ]]; then
-        # Extract data1 and data2
-        read -r TESTING_URL TESTING_BRANCH <<< "${LINE:2:-2}"
+        # Extract TESTING_URL and TESTING_BRANCH
+        read -r TESTING_URL TESTING_BRANCH <<< $(echo "$LINE" | tr -d '{}' | tr '"' ' ')
         echo "$TESTING_URL" > url.txt
         echo "$TESTING_BRANCH" > branch.txt
         echo "true" > test_status.txt
         continue
     fi
     
-    # Extract the repository URL, local path, and branch from the line
-    REPO_URL=$(echo "$LINE" | awk '{print $1}' | tr -d '"')
-    LOCAL_PATH=$(echo "$LINE" | awk '{print $2}' | tr -d '"')
-    BRANCH=$(echo "$LINE" | awk '{print $3}' | tr -d '"')
+    # Check if the line starts with "add"
+    if [[ $LINE == add* ]]; then
+        # Extract the repository URL, local path, and branch from the line
+        read -r _ REPO_URL LOCAL_PATH BRANCH <<< $(echo "$LINE" | tr '"' ' ')
 
-    # Check if any of the variables are empty
-    if [ -z "$REPO_URL" ] || [ -z "$LOCAL_PATH" ] || [ -z "$BRANCH" ]; then
-        continue
+        # Extract the repository name and owner from the URL
+        REPO_NAME=$(basename "$REPO_URL" .git)
+        REPO_OWNER=$(basename "$(dirname "$REPO_URL")")
+
+        # Extract the domain name from the URL
+        DOMAIN_NAME=$(echo "$REPO_URL" | awk -F[/:] '{print $3}')
+
+        # Add remote to the REMOTES array if not already present
+        if [[ ! " ${!REMOTES[@]} " =~ " ${REPO_OWNER} " ]]; then
+            REMOTES[$REPO_OWNER]="    <remote name=\"$REPO_OWNER\" fetch=\"https://$DOMAIN_NAME/$REPO_OWNER\" clone-depth=\"1\" />"
+        fi
+
+        # Add project to the PROJECTS array
+        PROJECTS+=("    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"$BRANCH\" />")
     fi
-
-    # Extract the repository name and owner from the URL
-    REPO_NAME=$(basename "$REPO_URL" .git)
-    REPO_OWNER=$(basename "$(dirname "$REPO_URL")")
-
-    # Extract the domain name from the URL
-    DOMAIN_NAME=$(echo "$REPO_URL" | awk -F[/:] '{print $4}')
-
-    # Add remote to the REMOTES array if not already present
-    if [[ ! " ${!REMOTES[@]} " =~ " ${REPO_OWNER} " ]]; then
-        REMOTES[$REPO_OWNER]="    <remote name=\"$REPO_OWNER\" fetch=\"https://$DOMAIN_NAME/$REPO_OWNER\" clone-depth=\"1\" />"
+    
+    # Check if the line starts with "remove"
+    if [[ $LINE == remove* ]]; then
+        # Extract the repository name to remove
+        REPO_TO_REMOVE=$(echo "$LINE" | awk '{print $2}')
+        
+        # Clone the manifest repository
+        git clone "$TESTING_URL" -b "$TESTING_BRANCH" manifest
+        
+        # Find the matching line in the manifest
+        MATCH=$(grep -r "name=\".*$REPO_TO_REMOVE\"" manifest)
+        
+        if [ -n "$MATCH" ]; then
+            # Extract the full name from the matched line
+            FULL_NAME=$(echo "$MATCH" | sed -n 's/.*name="\([^"]*\)".*/\1/p')
+            
+            # Add a removal entry to the PROJECTS array
+            PROJECTS+=("    <remove-project name=\"$FULL_NAME\" />")
+        fi
+        
+        # Clean up
+        rm -rf manifest
     fi
-
-    # Add project to the PROJECTS array
-    PROJECTS+=("    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"${BRANCH#refs/heads/}\" />")
 done < "$INFILE"
 
 # Output remotes
