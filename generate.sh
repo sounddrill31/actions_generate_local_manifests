@@ -67,16 +67,16 @@ while IFS= read -r LINE || [ -n "$LINE" ]; do
     
     # Check if the line starts with "remove"
     if [[ $LINE == remove* ]]; then
-        # Extract the repository name to remove
-        REPO_TO_REMOVE=$(echo "$LINE" | awk '{print $2}')
+        # Extract the path to remove
+        PATH_TO_REMOVE=$(echo "$LINE" | awk '{print $2}' | tr -d '"')
         
         # Clone the manifest repository if it doesn't exist
         if [ ! -d "manifest" ]; then
             git clone "$TESTING_URL" -b "$TESTING_BRANCH" manifest
         fi
         
-        # Find the first matching line in the manifest
-        MATCH=$(grep -m 1 -r "name=\".*$REPO_TO_REMOVE\"" manifest)
+        # Find the matching line in the manifest
+        MATCH=$(grep -r "path=\"$PATH_TO_REMOVE\"" manifest)
         
         if [ -n "$MATCH" ]; then
             # Extract the full name from the matched line
@@ -91,23 +91,28 @@ done < "$INFILE"
 # Clean up
 rm -rf manifest
 
+echo "" >> local_manifests.xml
+
 # Output remotes
 echo "    <!-- Remotes -->" >> local_manifests.xml
 for remote in "${REMOTES[@]}"; do
     echo "$remote" >> local_manifests.xml
 done
+echo "" >> local_manifests.xml
 
 # Output remove-project entries
 echo "    <!-- Removals -->" >> local_manifests.xml
 for remove_project in "${REMOVE_PROJECTS[@]}"; do
     echo "$remove_project" >> local_manifests.xml
 done
+echo "" >> local_manifests.xml
 
 # Output projects
 echo "    <!-- Repos -->" >> local_manifests.xml
 for project in "${PROJECTS[@]}"; do
     echo "$project" >> local_manifests.xml
 done
+echo "" >> local_manifests.xml
 
 # Close the XML file
 echo '</manifest>' >> local_manifests.xml
