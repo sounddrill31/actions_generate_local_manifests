@@ -16,10 +16,16 @@
 Do this for as many entries as possible
 ```
 { "https://github.com/ROM/manifest" "branch_name" }
-"https://github.com/username/repo_number_1.git" "path/to/clone" "branch_name"
+add "https://github.com/username/repo_number_1.git" "path/to/clone" "branch_name"
 ```
+
+If you want to remove it, add a line like
+```
+remove "path/to/folder"
+
  ### Example:
 ```
 { "https://github.com/LineageOS/android" "lineage-21.0" }
-"https://github.com/Mixed2066/android_device_xiaomi_ginkgo.git" "device/xiaomi/ginkgo" "lineage-20"
+add "https://github.com/sounddrill31/android_device_xiaomi_oxygen-3" "device/xiaomi/oxygen" "lineage-21-qpr3"
+remove "hardware/qcom-caf/msm8953/audio"
 ```
