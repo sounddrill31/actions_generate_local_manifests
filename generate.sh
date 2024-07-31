@@ -23,9 +23,10 @@ cat << EOF > local_manifests.xml
 <!-- Generated using sounddrill31/actions_generate_local_manifests -->
 EOF
 
-# Initialize arrays to store remotes and projects
+# Initialize associative arrays to store remotes, projects, and remove-projects
 declare -A REMOTES
-PROJECTS=()
+declare -A PROJECTS
+declare -A REMOVE_PROJECTS
 
 # Read the input file line by line
 while IFS= read -r LINE || [ -n "$LINE" ]; do
@@ -60,7 +61,8 @@ while IFS= read -r LINE || [ -n "$LINE" ]; do
         fi
 
         # Add project to the PROJECTS array
-        PROJECTS+=("    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"$BRANCH\" />")
+        PROJECT_KEY="${LOCAL_PATH}|${REPO_NAME}"
+        PROJECTS[$PROJECT_KEY]="    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"$BRANCH\" />"
     fi
     
     # Check if the line starts with "remove"
@@ -68,29 +70,37 @@ while IFS= read -r LINE || [ -n "$LINE" ]; do
         # Extract the repository name to remove
         REPO_TO_REMOVE=$(echo "$LINE" | awk '{print $2}')
         
-        # Clone the manifest repository
-        git clone "$TESTING_URL" -b "$TESTING_BRANCH" manifest
+        # Clone the manifest repository if it doesn't exist
+        if [ ! -d "manifest" ]; then
+            git clone "$TESTING_URL" -b "$TESTING_BRANCH" manifest
+        fi
         
-        # Find the matching line in the manifest
-        MATCH=$(grep -r "name=\".*$REPO_TO_REMOVE\"" manifest)
+        # Find the first matching line in the manifest
+        MATCH=$(grep -m 1 -r "name=\".*$REPO_TO_REMOVE\"" manifest)
         
         if [ -n "$MATCH" ]; then
             # Extract the full name from the matched line
             FULL_NAME=$(echo "$MATCH" | sed -n 's/.*name="\([^"]*\)".*/\1/p')
             
-            # Add a removal entry to the PROJECTS array
-            PROJECTS+=("    <remove-project name=\"$FULL_NAME\" />")
+            # Add a removal entry to the REMOVE_PROJECTS array
+            REMOVE_PROJECTS[$FULL_NAME]="    <remove-project name=\"$FULL_NAME\" />"
         fi
-        
-        # Clean up
-        rm -rf manifest
     fi
 done < "$INFILE"
+
+# Clean up
+rm -rf manifest
 
 # Output remotes
 echo "    <!-- Remotes -->" >> local_manifests.xml
 for remote in "${REMOTES[@]}"; do
     echo "$remote" >> local_manifests.xml
+done
+
+# Output remove-project entries
+echo "    <!-- Removals -->" >> local_manifests.xml
+for remove_project in "${REMOVE_PROJECTS[@]}"; do
+    echo "$remove_project" >> local_manifests.xml
 done
 
 # Output projects
