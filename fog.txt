@@ -1,0 +1,5 @@
+{ "https://github.com/lineageOS/android" "lineage-21.0" }
+add "https://github.com/This-place-is-simpler-than-you-think/android_device_xiaomi_fog" "device/xiaomi/fog" "arrow-13.1"
+add "https://github.com/alternoegraha/wwy_kernel_xiaomi_fog_rebase" "kernel/xiaomi/fog" "another-reset"
+add "https://github.com/alternoegraha/vendor_xiaomi_fog" "vendor/xiaomi/fog" "thirteen"
+add "https://github.com/PixelExperience/hardware_xiaomi" "hardware/xiaomi" "thirteen"
