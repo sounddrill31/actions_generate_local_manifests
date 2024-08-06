@@ -1,7 +1,7 @@
 { "https://github.com/lineageOS/android" "lineage-21.0" }
 add "https://github.com/sounddrill31/android_device_samsung_on7xelte_decommon" "device/samsung/on7xelte" "ten"
 add "https://github.com/DevOtag-Open-Source/android_kernel_samsung_exynos7870" "kernel/samsung/exynos7870" "eleven"
-add "https://github.com/DevOtag-Open-Source/android_vendor_samsung_on7xelte" "device/samsung/on7xelte" "eleven"
+add "https://github.com/DevOtag-Open-Source/android_vendor_samsung_on7xelte" "vendor/samsung/on7xelte" "eleven"
 remove "hardware/samsung"
 remove "prebuilts/vndk/v29"
 add "https://github.com/LineageOS/android_hardware_samsung" "hardware/samsung" "lineage-18.1"
