@@ -1,0 +1,4 @@
+{ "https://github.com/lineageOS/android" "lineage-21.0" }
+add "https://github.com/dev-harsh1998/android_device_xiaomi_nabu" "device/xiaomi/nabu" "lineage-21"
+add "https://github.com/dev-harsh1998/android_kernel_xiaomi_nabu" "kernel/xiaomi/nabu" "lineage-21"
+add "https://github.com/balazskokai/android_vendor_xiaomi_nabu" "vendor/xiaomi/nabu" "lineage-21"
