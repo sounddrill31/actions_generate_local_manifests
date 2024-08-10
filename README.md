@@ -1,11 +1,17 @@
-### Extract Proprietary Blobs
+### Generate Local Manifests
 * Generate your first local_manifests from a list of repos using Github Action.
 
 ### Steps
 * Fork this repository.
-* Then, go to repository Settings > Secrets ans Variables > Action > New repository secret; in name - `PAT` and in secret - paste your `Personal Access Token`.
+* Then, go to repository Settings > Secrets and Variables > Action > New repository secret; in name - `PAT` and in secret - paste your `Personal Access Token`.
 * Rename the text file here and edit contents to meet your needs
 
+#### OR
+
+* `git clone https://github.com/sounddrill31/actions_generate_local_manifests`
+* Edit your devicename.txt
+* `bash generate.sh devicename.txt`
+Now, a local_manifests.txt will appear
 ### Notes
 * You can get your `Personal Access Token` in account Settings > Developer settings > Personal acccess token.
 * This does not handle conflicts with ROM manifests, as it just generates a simple template. Fix them manually using remove-project.
@@ -22,6 +28,7 @@ add "https://github.com/username/repo_number_1.git" "path/to/clone" "branch_name
 If you want to remove it, add a line like
 ```
 remove "path/to/folder"
+```
 
  ### Example:
 ```

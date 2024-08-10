@@ -43,9 +43,9 @@ jobs:
           bash generate.sh *.txt
           mv local_manifests.xml $filename/
 
-          echo "TESTING=$(cat test_status.txt)" >> "$GITHUB_ENV"
-          echo "TESTING_URL=$(cat url.txt)" >> "$GITHUB_ENV"
-          echo "TESTING_BRANCH=$(cat branch.txt)" >> "$GITHUB_ENV"
+          echo "TESTING=$(cat test_status)" >> "$GITHUB_ENV"
+          echo "TESTING_URL=$(cat url)" >> "$GITHUB_ENV"
+          echo "TESTING_BRANCH=$(cat branch)" >> "$GITHUB_ENV"
 
     - name: Push to Github as Repository
       run: |
@@ -62,7 +62,7 @@ jobs:
 
     - name: Run Workflow to Check Manifests
       run: |
-       if [ -f "test_status.txt" ]; then
+       if [ -f "test_status" ]; then
         USERNAME=${{ github.actor }}
         TOKEN=${{ secrets.PAT }}
 
