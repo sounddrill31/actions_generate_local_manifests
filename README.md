@@ -19,20 +19,20 @@ Now, a local_manifests.txt will appear
 * Put Vendor and other heavy repos last
 
 ### Format:
-Do this for as many entries as possible
+Do this for as many entries as possible, try to maintain the order(branch at the end and path in the middle)
 ```
-{ "https://github.com/ROM/manifest" "branch_name" }
-add "https://github.com/username/repo_number_1.git" "path/to/clone" "branch_name"
+repo init -u https://github.com/YourProject/android.git -b ROM_Branch --git-lfs
+add https://github.com/username/repo_number_1.git path/to/clone -b branch_name
 ```
 
 If you want to remove it, add a line like
 ```
-remove "path/to/folder"
+rm -rf "path/to/folder"
 ```
 
  ### Example:
 ```
-{ "https://github.com/LineageOS/android" "lineage-21.0" }
-add "https://github.com/sounddrill31/android_device_xiaomi_oxygen-3" "device/xiaomi/oxygen" "lineage-21-qpr3"
-remove "hardware/qcom-caf/msm8953/audio"
+repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
+git clone https://github.com/sounddrill31/android_device_xiaomi_oxygen-3 device/xiaomi/oxygen -b lineage-21-qpr3
+rm -rf "hardware/qcom-caf/msm8953/audio"
 ```

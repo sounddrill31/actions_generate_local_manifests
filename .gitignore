@@ -3,3 +3,4 @@ test_status
 url
 manifest/
 *.xml
+*.output

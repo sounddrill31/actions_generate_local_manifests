@@ -3,24 +3,6 @@
 # Enable debug output
 set -x
 
-# Function to download scripts
-download_script() {
-    local script_name=$1
-    local url="https://insertlink/${script_name}"
-    if [ ! -f "${script_name}" ]; then
-        echo "Downloading ${script_name}..."
-        if ! wget "${url}"; then
-            echo "Failed to download ${script_name}"
-            exit 1
-        fi
-        chmod +x "${script_name}"
-    fi
-}
-
-# Download add.sh and remove.sh
-download_script "add.sh"
-download_script "remove.sh"
-
 # Check if a filename is provided as an argument
 if [ -z "$1" ]; then
     echo "Please provide a filename as an argument."
@@ -146,6 +128,3 @@ done
 # Print the exported variables
 echo "TESTING_URL: $TESTING_URL"
 echo "TESTING_BRANCH: $TESTING_BRANCH"
-
-# Disable debug output
-set +x
