@@ -12,7 +12,7 @@ if [ ! -f "$1" ]; then
     exit 1
 fi
 
-if [ ! -f "*.output" ]; then
+if [ ! -f *.output ]; then
     echo "Output not found! Run adapt.sh first"
     exit 1
 fi

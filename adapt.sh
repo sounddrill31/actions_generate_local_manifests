@@ -5,6 +5,7 @@ filename=$(basename "$1" | cut -d '.' -f 1)
 
 # Create the output file
 output_file="${filename}.output"
+rm -rf $output_file || true
 
 # Process the input file
 while IFS= read -r line || [ -n "$line" ]; do
@@ -16,8 +17,17 @@ while IFS= read -r line || [ -n "$line" ]; do
   elif [[ $line =~ ^git ]]; then
     # Extract the URL, path, and branch from the git clone line
     url=$(echo "$line" | awk '{print $3}')
-    path=$(echo "$line" | awk '{print $4}')
-    branch=$(echo "$line" | awk '{print $6}')
+    path=""
+    branch=""
+    args=($line)
+    for ((i=3; i<${#args[@]}; i++)); do
+      if [[ ${args[$i]} == -b ]]; then
+        branch=${args[$i+1]}
+        i=$((i+1))
+      elif [[ ${args[$i]} != -* ]]; then
+        path=${args[$i]}
+      fi
+    done
     echo "add \"$url\" \"$path\" \"${branch//[$'\r\n']}\"" >> "$output_file"
   elif [[ $line =~ ^rm ]]; then
     # Extract the path from the rm line
