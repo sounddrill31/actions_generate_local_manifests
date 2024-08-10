@@ -19,4 +19,8 @@ fi
 
 # Add project to the PROJECTS array
 PROJECT_KEY="${LOCAL_PATH}|${REPO_NAME}"
-PROJECTS[$PROJECT_KEY]="    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"$BRANCH\" />"
+if [ -z "$BRANCH" ]; then
+    PROJECTS[$PROJECT_KEY]="    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" />"
+else
+    PROJECTS[$PROJECT_KEY]="    <project path=\"$LOCAL_PATH\" name=\"$REPO_NAME\" remote=\"$REPO_OWNER\" revision=\"$BRANCH\" />"
+fi
