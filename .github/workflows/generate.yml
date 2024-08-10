@@ -40,7 +40,7 @@ jobs:
           mkdir -p "$filename"
           echo "filename=$filename" >> "$GITHUB_ENV"
           rm local_manifests.xml || true
-          bash main.sh filename.txt
+          bash adapt.sh $filename.txt
           mv local_manifests.xml $filename/
 
           echo "TESTING=$(cat test_status)" >> "$GITHUB_ENV"
