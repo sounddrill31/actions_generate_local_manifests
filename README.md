@@ -19,10 +19,12 @@ Now, a local_manifests.txt will appear
 * Put Vendor and other heavy repos last
 
 ### Format:
-Do this for as many entries as possible, try to maintain the order(branch at the end and path in the middle)
+Do this for as many entries as you need
 ```
 repo init -u https://github.com/YourProject/android.git -b ROM_Branch --git-lfs
-add https://github.com/username/repo_number_1.git path/to/clone -b branch_name
+git clone https://github.com/username/repo_number_1.git path/to/clone -b branch_name
+git clone https://github.com/username/repo_number_2.git path/to/clone -b branch_name
+git clone https://github.com/username/repo_number_3.git path/to/clone -b branch_name
 ```
 
 If you want to remove it, add a line like
