@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Enable debug output
-set -x
-
 # Check if a filename is provided as an argument
 if [ -z "$1" ]; then
     echo "Please provide a filename as an argument."
@@ -12,6 +9,11 @@ fi
 # Check if the input file exists
 if [ ! -f "$1" ]; then
     echo "File not found: $1"
+    exit 1
+fi
+
+if [ ! -f "*.output" ]; then
+    echo "Output not found! Run adapt.sh first"
     exit 1
 fi
 
