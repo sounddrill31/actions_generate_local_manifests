@@ -20,6 +20,8 @@ Now, a local_manifests.txt will appear
 
 ### Format:
 Do this for as many entries as you need
+
+repo init line is needed for removals and testing.
 ```
 repo init -u https://github.com/YourProject/android.git -b ROM_Branch --git-lfs
 git clone https://github.com/username/repo_number_1.git path/to/clone -b branch_name
