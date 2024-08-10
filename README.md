@@ -1,11 +1,17 @@
-### Extract Proprietary Blobs
+### Generate Local Manifests
 * Generate your first local_manifests from a list of repos using Github Action.
 
 ### Steps
 * Fork this repository.
-* Then, go to repository Settings > Secrets ans Variables > Action > New repository secret; in name - `PAT` and in secret - paste your `Personal Access Token`.
+* Then, go to repository Settings > Secrets and Variables > Action > New repository secret; in name - `PAT` and in secret - paste your `Personal Access Token`.
 * Rename the text file here and edit contents to meet your needs
 
+#### OR
+
+* `git clone https://github.com/sounddrill31/actions_generate_local_manifests`
+* Edit your devicename.txt
+* `bash adapt.sh devicename.txt`
+Now, a local_manifests.txt will appear
 ### Notes
 * You can get your `Personal Access Token` in account Settings > Developer settings > Personal acccess token.
 * This does not handle conflicts with ROM manifests, as it just generates a simple template. Fix them manually using remove-project.
@@ -13,19 +19,22 @@
 * Put Vendor and other heavy repos last
 
 ### Format:
-Do this for as many entries as possible
+Do this for as many entries as you need
 ```
-{ "https://github.com/ROM/manifest" "branch_name" }
-add "https://github.com/username/repo_number_1.git" "path/to/clone" "branch_name"
+repo init -u https://github.com/YourProject/android.git -b ROM_Branch --git-lfs
+git clone https://github.com/username/repo_number_1.git path/to/clone -b branch_name
+git clone https://github.com/username/repo_number_2.git path/to/clone -b branch_name
+git clone https://github.com/username/repo_number_3.git path/to/clone -b branch_name
 ```
 
 If you want to remove it, add a line like
 ```
-remove "path/to/folder"
+rm -rf "path/to/folder"
+```
 
  ### Example:
 ```
-{ "https://github.com/LineageOS/android" "lineage-21.0" }
-add "https://github.com/sounddrill31/android_device_xiaomi_oxygen-3" "device/xiaomi/oxygen" "lineage-21-qpr3"
-remove "hardware/qcom-caf/msm8953/audio"
+repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
+git clone https://github.com/sounddrill31/android_device_xiaomi_oxygen-3 device/xiaomi/oxygen -b lineage-21-qpr3
+rm -rf "hardware/qcom-caf/msm8953/audio"
 ```

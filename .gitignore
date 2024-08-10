@@ -1,5 +1,6 @@
-branch.txt
-test_status.txt
-url.txt
+branch
+test_status
+url
 manifest/
 *.xml
+*.output
