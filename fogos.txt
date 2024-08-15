@@ -1,0 +1,5 @@
+repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
+git clone https://github.com/GokuPlay609/android_device_motorola_sm6375-common device/motorola/sm6375-common -b fourteen
+git clone https://github.com/GokuPlay609/android_kernel_motorola_sm6375 kernel/motorola/sm6375 -b fourteen
+git clone https://github.com/GokuPlay609/android_vendor_motorola_fogos vendor/motorola/fogos -b fourteen
+git clone https://github.com/GokuPlay609/android_hardware_motorola android_hardware_motorola -b lineage-21
