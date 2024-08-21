@@ -18,7 +18,7 @@ while IFS= read -r line || [ -n "$line" ]; do
   if [[ $line =~ ^repo ]]; then
     # Extract the URL and branch from the repo init line
     url=$(echo "$line" | awk '{print $4}')
-    branch=$(echo "$line" | awk '{print $6}')
+    branch=$(echo "$line" | awk -F'-b' '{print $2}' | xargs)
     echo "{ \"$url\" \"$branch\" }" >> "$output_file"
   elif [[ $line =~ ^git ]]; then
     # Extract the URL, path, and branch from the git clone line
