@@ -99,10 +99,59 @@ echo "" >> local_manifests.xml
 
 # Output projects
 echo "    <!-- Repos -->" >> local_manifests.xml
+echo "    <!-- Device -->" >> local_manifests.xml
 for project in "${PROJECTS[@]}"; do
-    echo "$project" >> local_manifests.xml
+    if [[ $project == *"device/"* && $project != *"common"* ]]; then
+        echo "$project" >> local_manifests.xml
+    fi
 done
 echo "" >> local_manifests.xml
+
+echo "    <!-- Kernel -->" >> local_manifests.xml
+for project in "${PROJECTS[@]}"; do
+    if [[ $project == *"kernel/"* ]]; then
+        echo "$project" >> local_manifests.xml
+    fi
+done
+echo "" >> local_manifests.xml
+
+echo "    <!-- Vendor -->" >> local_manifests.xml
+for project in "${PROJECTS[@]}"; do
+    if [[ $project == *"vendor/"* ]]; then
+        echo "$project" >> local_manifests.xml
+    fi
+done
+echo "" >> local_manifests.xml
+
+# Check if there are any hardware projects
+HARDWARE_PROJECTS=()
+for project in "${PROJECTS[@]}"; do
+    if [[ $project == *"hardware/"* ]]; then
+        HARDWARE_PROJECTS+=("$project")
+    fi
+done
+if [[ ${#HARDWARE_PROJECTS[@]} -gt 0 ]]; then
+    echo "    <!-- Hardware -->" >> local_manifests.xml
+    for project in "${HARDWARE_PROJECTS[@]}"; do
+        echo "$project" >> local_manifests.xml
+    done
+    echo "" >> local_manifests.xml
+fi
+
+# Check if there are any other projects
+OTHER_PROJECTS=()
+for project in "${PROJECTS[@]}"; do
+    if [[ $project != *"device/"* && $project != *"kernel/"* && $project != *"vendor/"* && $project != *"hardware/"* ]]; then
+        OTHER_PROJECTS+=("$project")
+    fi
+done
+if [[ ${#OTHER_PROJECTS[@]} -gt 0 ]]; then
+    echo "    <!-- Other Repos -->" >> local_manifests.xml
+    for project in "${OTHER_PROJECTS[@]}"; do
+        echo "$project" >> local_manifests.xml
+    done
+    echo "" >> local_manifests.xml
+fi
 
 # Close the XML file
 echo '</manifest>' >> local_manifests.xml

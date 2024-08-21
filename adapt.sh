@@ -5,7 +5,7 @@ filename=$(basename "$1" | cut -d '.' -f 1)
 
 # Create the output file
 output_file="${filename}.output"
-rm -rf $output_file || true
+rm -rf $output_file branch test_status url local_manifests.xml || true
 
 # Process the input file
 while IFS= read -r line || [ -n "$line" ]; do
