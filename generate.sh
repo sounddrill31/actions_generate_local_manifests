@@ -1,3 +1,9 @@
+#
+# Copyright (C) 2024 Souhrud Reddy
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
 #!/bin/bash
 
 # Check if a filename is provided as an argument
