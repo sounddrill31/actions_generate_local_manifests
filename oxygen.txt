@@ -1,4 +1,4 @@
-repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
+repo init -u https://github.com/LineageOS/android.git -b lineage-21.0
 git clone https://github.com/sounddrill31/android_device_xiaomi_oxygen-3 device/xiaomi/oxygen -b lineage-21-qpr3
 git clone https://github.com/halibw/android_kernel_xiaomi_oxygen kernel/xiaomi/oxygen -b lineage-21
 git clone https://github.com/sounddrill31/proprietary_vendor_oxygen vendor/xiaomi/oxygen -b lineage-21-qpr3
