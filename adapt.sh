@@ -17,8 +17,8 @@ rm -rf $output_file branch test_status url local_manifests.xml || true
 while IFS= read -r line || [ -n "$line" ]; do
   if [[ $line =~ ^repo ]]; then
     # Extract the URL and branch from the repo init line
-    url=$(echo "$line" | awk '{print $4}')
-    branch=$(echo "$line" | awk -F'-b' '{print $2}' | xargs)
+    url=$(echo "$line" | awk -F'-u ' '{print $2}' | awk '{print $1}')
+    branch=$(echo "$line" | awk -F'-b ' '{print $2}' | awk '{print $1}')
     echo "{ \"$url\" \"$branch\" }" >> "$output_file"
   elif [[ $line =~ ^git ]]; then
     # Extract the URL, path, and branch from the git clone line
