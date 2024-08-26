@@ -34,6 +34,8 @@ If you want to remove it, add a line like
 rm -rf "path/to/folder"
 ```
 
+This is optional because script automatically checks for conflicts!
+
  ### Example:
 ```
 repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
