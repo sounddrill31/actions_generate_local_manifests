@@ -13,6 +13,9 @@ filename=$(basename "$1" | cut -d '.' -f 1)
 output_file="${filename}.output"
 rm -rf $output_file branch test_status url local_manifests.xml || true
 
+# Array to keep track of paths we've seen
+declare -A seen_paths
+
 # Process the input file
 while IFS= read -r line || [ -n "$line" ]; do
   if [[ $line =~ ^repo ]]; then
@@ -35,10 +38,17 @@ while IFS= read -r line || [ -n "$line" ]; do
       fi
     done
     echo "add \"$url\" \"$path\" \"${branch//[$'\r\n']}\"" >> "$output_file"
+    
+    # Add removal entry if we haven't seen this path before
+    if [[ ! ${seen_paths[$path]} ]]; then
+      echo "remove \"$path\"" >> "$output_file"
+      seen_paths[$path]=1
+    fi
   elif [[ $line =~ ^rm ]]; then
     # Extract the path from the rm line
     path=$(echo "$line" | awk '{print $3}' | tr -d '"')
     echo "remove \"${path//[$'\r\n']}\"" >> "$output_file"
+    seen_paths[$path]=1
   fi
 done < "$1"
 
