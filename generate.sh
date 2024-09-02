@@ -113,6 +113,14 @@ for project in "${PROJECTS[@]}"; do
 done
 echo "" >> local_manifests.xml
 
+echo "    <!-- Device - Common -->" >> local_manifests.xml
+for project in "${PROJECTS[@]}"; do
+    if [[ $project == *"device/"* && $project == *"common"* ]]; then
+        echo "$project" >> local_manifests.xml
+    fi
+done
+echo "" >> local_manifests.xml
+
 echo "    <!-- Kernel -->" >> local_manifests.xml
 for project in "${PROJECTS[@]}"; do
     if [[ $project == *"kernel/"* ]]; then
@@ -123,7 +131,15 @@ echo "" >> local_manifests.xml
 
 echo "    <!-- Vendor -->" >> local_manifests.xml
 for project in "${PROJECTS[@]}"; do
-    if [[ $project == *"vendor/"* ]]; then
+    if [[ $project == *"vendor/"* && $project != *"common"* ]]; then
+        echo "$project" >> local_manifests.xml
+    fi
+done
+echo "" >> local_manifests.xml
+
+echo "    <!-- Vendor - Common -->" >> local_manifests.xml
+for project in "${PROJECTS[@]}"; do
+    if [[ $project == *"vendor/"* && $project == *"common"* ]]; then
         echo "$project" >> local_manifests.xml
     fi
 done
