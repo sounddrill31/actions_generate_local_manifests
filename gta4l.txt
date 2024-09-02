@@ -1,0 +1,6 @@
+repo init -u https://github.com/RisingTechOSS/android -b fourteen
+git clone https://github.com/Matrixx-Devices/android_device_samsung_gta4l-common -b 14.0 device/samsung/gta4l-common
+git clone https://github.com/CuriousNom/android_device_samsung_gta4l -b lineage-21 device/samsung/gta4l
+git clone https://github.com/Matrixx-Devices/android_kernel_samsung_gta4l -b 14.0 kernel/samsung/gta4l 
+git clone https://github.com/Matrixx-Devices/android_vendor_samsung_gta4l-common -b 14.0 vendor/samsung/gta4l-common
+git clone https://github.com/CuriousNom/proprietary_vendor_samsung_gta4l -b lineage-21 vendor/samsung/gta4l
