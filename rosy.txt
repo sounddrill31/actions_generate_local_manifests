@@ -1,0 +1,4 @@
+repo init -u https://github.com/ProjectBlaze/manifest -b 15 --git-lfs
+git clone https://github.com/xlightningxstar/android_device_xiaomi_rosy device/xiaomi/rosy -b "15.0"
+git clone https://github.com/xlightningxstar/android_kernel_xiaomi_rosy kernel/xiaomi/rosy -b "LA.UM.9.1"
+git clone https://github.com/xlightningxstar/vendor_xiaomi_rosy vendor/xiaomi/rosy -b "15.0"
