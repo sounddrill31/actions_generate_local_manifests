@@ -1,8 +1,8 @@
 repo init -u https://github.com/alphadroid-project/manifest -b alpha-14 --git-lfs
 git clone https://github.com/MaheshTechnicals/device_xiaomi_miatoll-ev -b alpha device/xiaomi/miatoll
-git clone -b "15" https://github.com/clarencekopitiam/kernel_xiaomi_sm6250.git kernel/xiaomi/sm6250 --depth=1
-git clone -b lineage-21.0 https://github.com/clarencekopitiam/vendor_xiaomi_miatoll.git vendor/xiaomi/miatoll --depth=1
-git clone -b lineage-21 https://github.com/LineageOS/android_hardware_xiaomi.git hardware/xiaomi --depth=1
-git clone -b lineage-21 https://github.com/LineageOS/android_hardware_sony_timekeep.git hardware/sony/timekeep --depth=1
-git clone -b main https://github.com/clarencelol/vendor_xiaomi_miuicamera.git vendor/xiaomi/miuicamera --depth=1
-git clone -b alpha https://github.com/MaheshTechnicals/vendor_lineage-priv.git vendor/lineage-priv/keys --depth=1
+git clone https://github.com/clarencekopitiam/kernel_xiaomi_sm6250.git -b "15" kernel/xiaomi/sm6250
+git clone https://github.com/clarencekopitiam/vendor_xiaomi_miatoll.git -b lineage-21.0 vendor/xiaomi/miatoll
+git clone https://github.com/LineageOS/android_hardware_xiaomi.git -b lineage-21 hardware/xiaomi
+git clone https://github.com/LineageOS/android_hardware_sony_timekeep.git -b lineage-21 hardware/sony/timekeep
+git clone https://github.com/clarencelol/vendor_xiaomi_miuicamera.git -b main vendor/xiaomi/miuicamera
+git clone https://github.com/MaheshTechnicals/vendor_lineage-priv.git -b alpha vendor/lineage-priv/keys
