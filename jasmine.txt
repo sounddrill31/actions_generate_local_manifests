@@ -1,4 +1,4 @@
 repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
-git clone https://github.com/xlightningxstar/android_device_xiaomi_jasmine_sprout -b lineage-21.0 device/xiaomi/jasmine_sprout
+git clone https://github.com/sounddrill31/android_device_xiaomi_jasmine_sprout -b lineage-21.0 device/xiaomi/jasmine_sprout
 git clone https://github.com/xlightningxstar/android_vendor_xiaomi_jasmine_sprout -b lineage-21.0 vendor/xiaomi/jasmine_sprout
 git clone https://github.com/xlightningxstar/android_kernel_xiaomi_jasmine_sprout -b fourteen kernel/xiaomi/jasmine_sprout
