@@ -11,7 +11,7 @@
 * `git clone https://github.com/sounddrill31/actions_generate_local_manifests`
 * Edit your devicename.txt
 * `bash adapt.sh devicename.txt`
-Now, a local_manifests.txt will appear
+Now, a local_manifests.xml will appear
 ### Notes
 * You can get your `Personal Access Token` in account Settings > Developer settings > Personal acccess token.
 * This does not handle conflicts with ROM manifests, as it just generates a simple template. Fix them manually using remove-project.
