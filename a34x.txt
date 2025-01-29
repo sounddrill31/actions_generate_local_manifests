@@ -2,3 +2,5 @@ repo init -u https://github.com/LineageOS/android.git -b lineage-22.1 --git-lfs
 git clone https://github.com/DarkKiller28/device_samsung_a34x device/samsung/a34x -b main
 git clone https://github.com/potatogeek/lineage-vendor-a34x vendor/samsung/a34x -b a14
 git clone https://github.com/Fede2782/android_kernel_samsung_a34x.git kernel/samsung/a34x -b sep-15.1/connectivity-t-bsp
+git clone https://github.com/LineageOS/android_hardware_samsung.git hardware/samsung -b lineage-22.1
+git clone https://github.com/LineageOS/android_hardware_mediatek.git hardware/mediatek -b lineage-22.1
