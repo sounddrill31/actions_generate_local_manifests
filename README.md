@@ -4,7 +4,9 @@
 ### Steps
 * Fork this repository.
 * Then, go to repository Settings > Secrets and Variables > Action > New repository secret; in name - `PAT` and in secret - paste your `Personal Access Token`.
-* Rename the text file here and edit contents to meet your needs
+* Go to Actions tab, and if prompted, enable workflows.
+* Go back to the Code screen(default tab)
+* Rename the text file here to your device name(oxygen.txt) and edit contents to meet your needs
 
 #### OR
 
